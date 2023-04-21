@@ -5,20 +5,20 @@ export default class UsernameResolver {
     this.context = context
   }
 
-  async usernameToActor(username, signal) {
+  async usernameToActor(username, signal=AbortSignal.timeout(500)) {
     const offer = await this.#resolveOffer(object=> 
       object.object.preferredUsername == username, signal)
     return offer? offer.actor : null
   }
 
-  async actorToUsername(actor, signal) {
+  async actorToUsername(actor, signal=AbortSignal.timeout(500)) {
     const offer = await this.#resolveOffer(object=> 
       object.actor == actor &&
       object.object.actor == actor, signal)
     return offer? offer.object.preferredUsername : null
   }
 
-  async requestUsername(preferredUsername, signal) {
+  async requestUsername(preferredUsername, signal=AbortSignal.timeout(500)) {
     // Check if we have already have made an offer
     let offer = null
     for await (const object of this.gf.objects(this.context, signal)) {
@@ -48,6 +48,7 @@ export default class UsernameResolver {
     // If an offer already exists, just change it
     if (offer) {
       offer.object.preferredUsername = preferredUsername
+      return
     }
 
     // Otherwise make a new one
@@ -64,6 +65,7 @@ export default class UsernameResolver {
       },
       context: this.context
     })
+    return
   }
 
   async #resolveOffer(condition, signal) {

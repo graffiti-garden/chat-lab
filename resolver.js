@@ -48,7 +48,7 @@ export default class UsernameResolver {
     // If an offer already exists, just change it
     if (offer) {
       offer.object.preferredUsername = preferredUsername
-      return
+      return "success"
     }
 
     // Otherwise make a new one
@@ -65,7 +65,7 @@ export default class UsernameResolver {
       },
       context: this.context
     })
-    return
+    return "success"
   }
 
   async #resolveOffer(condition, signal) {

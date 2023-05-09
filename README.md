@@ -114,12 +114,12 @@ To create a private message, you need to add a [`bto`](https://www.w3.org/TR/act
 These properties must have values that are arrays of Graffiti Actor URIs, corresponding to the user's that you want to be able to view the private message.
 See the `sendMessage` method in the source code.
 
-If both `bto` and `bcc` are not included in the object, the object is public.
+If both `bto` and `bcc` are *not* included in the object, the object is public.
 If either field is included but no recipient actors are specified (i.e. `bto: []`), the object can only be seen by it's creator.
-This latter can be useful to store application settings or state that you would like to sync between different devices
+This latter case can be useful if there are application settings or state that you would like to sync between different devices or
 interoperate across different applications.
 For example, your chat application may store which conversations the user has opened most recently.
-While it is likely that the user does not want this data made public,
-it could be useful for this state to persist even if the user switches a different Graffiti chat application.
+While it is likely that the user does not want this conversation history made public,
+it could be useful for this state to persist even if the user switches to a different Graffiti chat application.
 
 There is no functional difference between the `bto` and `bcc`, they simply mirror the semantic meaning of `to` and `cc` fields in emails.
